@@ -23,6 +23,17 @@ class Restaurant(Base):
         id = Column(Integer, primary_key=True)
         name = Column(String(250), nullable=False)
 
+        # We added this serialize function to be able to send JSON objects in a
+        # serializable format
+        @property
+        def serialize(self):
+            return {
+                'id': self.id,
+                'name': self.name,
+            }
+
+
+
 class MenuItem(Base):
 
         # Tablename
@@ -37,6 +48,17 @@ class MenuItem(Base):
         restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
         restaurant = relationship(Restaurant)
 
+        # We added this serialize function to be able to send JSON objects in a
+        # serializable format
+        @property
+        def serialize(self):
+            return {
+                'name': self.name,
+                'description': self.description,
+                'id': self.id,
+                'price': self.price,
+                'course': self.course,
+            }
 
 # Configuration - End of file
 # Creates (or connect) the database and add tables and columns
